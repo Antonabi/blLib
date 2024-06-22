@@ -1,0 +1,30 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "blLib"
+version = "1.0"
+description = "A library for interacting with blocklive."
+readme = "README.md"
+authors = [{ name = "Antonabi", email = "anton@5k8.de" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = []
+dependencies = ["requests", "scratchattach", "art", "termcolor"]
+requires-python = ">=3.7"
+
+    [project.optional-dependencies]
+    build = ["build", "twine"]
+    dev   = ["black", "bumpver", "isort", "mypy", "pytest"]
+
+    [project.scripts]
+    blLib = "blLib.__main__:main"
+
+    [project.urls]
+    repository    = "https://github.com/Antonabi/blLib"
+    documentation = "https://github.com/Antonabi/blLib/docs"
