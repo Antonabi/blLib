@@ -45,7 +45,7 @@ class ProjectConnection:
         Sets the cursor of you.
         """
 
-        message = {
+        data = {
             "cursor": {
                 "scrollX": scrollX,
                 "scrollY": scrollY,
@@ -55,4 +55,17 @@ class ProjectConnection:
             },
             "blId": self.projectId
         }
-        self._sendMessage(type="setCursor", number=42, message=message)
+        self._sendMessage(type="setCursor", number=42, message=data)
+
+    def sendChatMessage(self, message):
+        data = {
+            "blId": self.projectId,
+            "msg": {
+                "meta": "chat",
+                "msg": {
+                    "sender": self.username,
+                    "text": message
+                }
+            }
+        }
+        self._sendMessage(type="chat", number=42, message=data)

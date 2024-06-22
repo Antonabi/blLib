@@ -69,6 +69,23 @@ class Session:
         for message in response.json():
             messages.append(chat.ChatMessage(message))
         return messages
+    
+    def getBlockliveIdFromScratchId(self, projectId, creator):
+        """
+        Gets the blocklive id from the scratch id.
+        """
+        response = requests.get(f"{commons.serverUrl}/blId/{projectId}/{creator}")
+        return response.text
+    
+    def getScratchIdFromBlockliveId(self, blProjectId, creator):
+        """
+        Get the scratchId from the blocklive id.
+        """
+        projects = self.getUserProjects(creator)
+        for project in projects:
+            if project.blId == blProjectId:
+                return project.scratchId
+        raise exceptions.ProjectNotAvailable
 
     def addFriend(self, friend):
         """
@@ -104,10 +121,12 @@ class Session:
             else:
                 raise exceptions.ProjectNotAvailable
         
-
-        
         response = requests.post(f"{commons.serverUrl}/newProject/{scratchProjectId}/{self.username}?title={title}", json=projectJson)
         return int(response.json()["id"])
     
     def connectToProject(self, projectId, pk=None):
+        """
+        Connects to a blocklive project via websocket. The projectId is that of blocklive.
+        """
+
         return projectConnection.ProjectConnection(projectId, self.username, pk)
