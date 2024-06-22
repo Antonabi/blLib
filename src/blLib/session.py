@@ -5,6 +5,7 @@ from . import exceptions
 from . import activeUsers
 from . import userProjects
 from . import chat
+from . import projectConnection
 from . import commons
 
 class Session:
@@ -35,14 +36,14 @@ class Session:
             users.append(activeUsers.ActiveUser(user))
         return users
     
-    def getUserProjects(self, projectId, user=None):
+    def getUserProjects(self, user=None):
         """
         Gets the projects that a user has used with blocklive. \n
         Returns a list of UserProject objects.
         """
         if user == None:
             user = self.username
-        response = requests.get(f"{commons.serverUrl}/userProjectsScratch/{projectId}")
+        response = requests.get(f"{commons.serverUrl}/userProjectsScratch/")
         projects = []
         for project in response.json():
             projects.append(userProjects.UserProject(project))
@@ -107,3 +108,6 @@ class Session:
         
         response = requests.post(f"{commons.serverUrl}/newProject/{scratchProjectId}/{self.username}?title={title}", json=projectJson)
         return int(response.json()["id"])
+    
+    def connectToProject(self, projectId, pk=None):
+        return projectConnection.ProjectConnection(projectId, self.username, pk)

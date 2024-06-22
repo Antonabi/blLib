@@ -42,7 +42,7 @@ def getActiveProjects(args):
     for project in foundProjects:
         termcolor.cprint({"id": project.id, "users": project.users})
 
-def getBlIdFromScratchId(args):
+def getBlIdFromScratchId(args):  # lol im so stupid https://spore.us.to:4000/blId/{scratchId}/{username}
     print(args)
     termcolor.cprint(f"Started getBlIdFromScratchId.\n\n", "blue")
 

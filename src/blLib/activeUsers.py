@@ -2,15 +2,12 @@ class ActiveUser:
     """
     A blocklive active user.
     """
-    def __init__(self, userInfo) -> None:
+    def __init__(self, userInfo=None, username=None, userProject=None, cursor=None) -> None:
         self._userInfo = userInfo
-
+        
         self.username = self._userInfo["username"]
         self.userProject = self._userInfo["pk"] # the scratch project which the user is working on (every user is working on a different one)
         self.cursor = Cursor(self._userInfo["cursor"])
-        """
-        The state of the user. Contains the name of the sprite the user edits, the scroll wheel pos etc.
-        """
 
 class Cursor:
     """
