@@ -7,7 +7,7 @@ A library for interacting with blocklive. (Currently in VERY beta)
 To install this just use
 
 ```bash
-python -m pip install -e ./blLib
+pip install -e git+https://github.com/Antonabi/blLib.git
 ```
 
 .
