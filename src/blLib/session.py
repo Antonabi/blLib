@@ -43,7 +43,7 @@ class Session:
         """
         if user == None:
             user = self.username
-        response = requests.get(f"{commons.serverUrl}/userProjectsScratch/")
+        response = requests.get(f"{commons.serverUrl}/userProjectsScratch/{user}")
         projects = []
         for project in response.json():
             projects.append(userProjects.UserProject(project))
@@ -58,6 +58,14 @@ class Session:
         response = requests.get(f"{commons.serverUrl}/projectJSON/{projectId}")
         return response.json()
     
+    def getProjectOwner(self, projectId):
+        """
+        Just gets the owner of a blocklive project. Uses the scratch id.
+        Return the owners username.
+        """
+        response = requests.get(f"{commons.serverUrl}/scratchIdInfo/{projectId}")
+        return response.json()["owner"]
+    
     def getProjectChat(self, projectId):
         """
         Gets the chat of blocklive project.\n
@@ -70,7 +78,7 @@ class Session:
             messages.append(chat.ChatMessage(message))
         return messages
     
-    def getBlockliveIdFromScratchId(self, projectId, creator):
+    def getBlockliveIdFromScratchId(self, projectId, creator=""):
         """
         Gets the blocklive id from the scratch id.
         """
@@ -86,6 +94,13 @@ class Session:
             if project.blId == blProjectId:
                 return project.scratchId
         raise exceptions.ProjectNotAvailable
+    
+    def getSharedProjectCount(days):
+        """
+        Gets the count of shared projects in the last days.
+        """
+        response = requests.get(f"{commons.serverUrl}/dau/{days}")
+        return response.text
 
     def addFriend(self, friend):
         """
