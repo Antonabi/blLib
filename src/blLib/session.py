@@ -3,7 +3,7 @@ import scratchattach as scratch3
 
 from . import exceptions
 from . import activeUsers
-from . import userProjects
+from . import userStuff
 from . import chat
 from . import projectConnection
 from . import commons
@@ -46,7 +46,7 @@ class Session:
         response = requests.get(f"{commons.serverUrl}/userProjectsScratch/{user}")
         projects = []
         for project in response.json():
-            projects.append(userProjects.UserProject(project))
+            projects.append(userStuff.UserProject(project))
         return projects
     
     def getProjectJson(self, projectId):
@@ -60,7 +60,7 @@ class Session:
     
     def getProjectOwner(self, projectId):
         """
-        Just gets the owner of a blocklive project. Uses the scratch id.
+        Just gets the owner of a blocklive project. Uses the scratch id. \n
         Return the owners username.
         """
         response = requests.get(f"{commons.serverUrl}/scratchIdInfo/{projectId}")
@@ -101,6 +101,18 @@ class Session:
         """
         response = requests.get(f"{commons.serverUrl}/dau/{days}")
         return response.text
+    
+    def getUserFriends(self, user=None):
+        """
+        Gets the friends of a user. \n
+        Returns a list of usernames.
+        """
+
+        if user == None:
+            user = self.username
+        
+        response = requests.get(f"{commons.serverUrl}/friends/{user}")
+        return response.json()
 
     def addFriend(self, friend):
         """
